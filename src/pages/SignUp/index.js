@@ -5,7 +5,7 @@ import api from '../../services/api';
 
 import {Container, Form} from './styles';
 
-const SignUp = () => {
+const Index = () => {
     const [username, setUsername] = useState('');
     const [job, setJob] = useState('');
     const [password, setPassword] = useState('');
@@ -53,4 +53,4 @@ const SignUp = () => {
     );
 };
 
-export default withRouter(SignUp)
+export default withRouter(Index)

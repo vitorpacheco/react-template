@@ -6,7 +6,7 @@ import {login} from '../../services/auth';
 
 import {Container, Form} from "./styles";
 
-const SignIn = () => {
+const Index = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -48,4 +48,4 @@ const SignIn = () => {
     );
 };
 
-export default withRouter(SignIn)
+export default withRouter(Index)
