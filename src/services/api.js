@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {getToken} from './auth';
-import {isNil} from 'lodash';
 
 const api = axios.create({
     baseURL: 'https://reqres.in/api/'
