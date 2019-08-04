@@ -6,25 +6,27 @@ import {login} from '../../services/auth';
 
 import {Container, Form} from "./styles";
 
-const Index = () => {
+const Index = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSignIn = async e => {
+  const handleSignIn = e => {
     e.preventDefault();
 
     if (!email || !password) {
       setError('Preencha e-mail e senha para continuar');
-    } else {
-      try {
-        const response = await api.post('/login', {email, password});
+      return;
+    }
+
+    api.post('/login', {email, password})
+      .then(response => {
         login(response.data.token);
-        this.props.history.push('/app');
-      } catch (err) {
+        props.history.push('/app');
+      }).catch(() => {
         setError('Houve um problema com o login, verifique suas credenciais.');
       }
-    }
+    );
   };
 
   return (
