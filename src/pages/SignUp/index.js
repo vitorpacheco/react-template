@@ -34,19 +34,25 @@ const Index = () => {
                 <input
                     type="text"
                     placeholder="Nome de usuário"
-                    onChange={e => setUsername(e.target.value)}/>
+                    onChange={e => setUsername(e.target.value)}
+                />
 
                 <input
                     type="text"
                     placeholder="Ocupação"
-                    onChange={e => setJob(e.target.value)}/>
+                    onChange={e => setJob(e.target.value)}
+                />
 
                 <input
                     type="password"
                     placeholder="Senha"
-                    onChange={e => setPassword(e.target.value)}/>
+                    onChange={e => setPassword(e.target.value)}
+                />
+
                 <button type="submit">Cadastrar</button>
+
                 <hr/>
+
                 <Link to="/">Fazer Login</Link>
             </Form>
         </Container>

@@ -34,14 +34,18 @@ const Index = () => {
 
                 <input type="email"
                        placeholder="Endereço de e-mail"
-                       onChange={e => setEmail(e.target.value)}/>
+                       onChange={e => setEmail(e.target.value)}
+                />
 
                 <input type="password"
                        placeholder="Senha"
-                       onChange={e => setPassword(e.target.value)}/>
+                       onChange={e => setPassword(e.target.value)}
+                />
 
                 <button type="submit">Entrar</button>
+
                 <hr/>
+
                 <Link to="/signup">Cadastrar</Link>
             </Form>
         </Container>
