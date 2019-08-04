@@ -4,14 +4,14 @@ import {Link, withRouter} from 'react-router-dom';
 import api from '../../services/api';
 import {login} from '../../services/auth';
 
-import {Container, Form} from "./styles";
+import {Container, Form} from './styles';
 
-const Index = (props) => {
+const SignIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSignIn = e => {
+  const handleSignIn = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -20,13 +20,12 @@ const Index = (props) => {
     }
 
     api.post('/login', {email, password})
-      .then(response => {
+      .then((response) => {
         login(response.data.token);
         props.history.push('/app');
       }).catch(() => {
-        setError('Houve um problema com o login, verifique suas credenciais.');
-      }
-    );
+      setError('Houve um problema com o login, verifique suas credenciais.');
+    });
   };
 
   return (
@@ -56,4 +55,4 @@ const Index = (props) => {
   );
 };
 
-export default withRouter(Index)
+export default withRouter(SignIn);
