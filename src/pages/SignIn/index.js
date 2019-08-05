@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
-import api from '../../services/api';
-import {login} from '../../services/auth';
-
 import {Container, Form} from './styles';
+import {useDispatch} from 'react-redux';
+import {SignInAction} from '../../store/actions/authActions';
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -19,12 +20,8 @@ const SignIn = (props) => {
       return;
     }
 
-    api.post('/login', {email, password})
-      .then((response) => {
-        login(response.data.token);
-        props.history.push('/app');
-      }).catch(() => {
-      setError('Houve um problema com o login, verifique suas credenciais.');
+    dispatch(SignInAction(email, password)).then(() => {
+      props.history.push('/app');
     });
   };
 
