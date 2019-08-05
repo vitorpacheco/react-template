@@ -1,4 +1,4 @@
-import {AUTH_ERROR, AUTH_LOGOUT, AUTH_SIGNIN} from '../actions/types';
+import {AUTH_ERROR, AUTH_LOGOUT, AUTH_SIGNIN, AUTH_SIGNUP} from '../actions/types';
 
 export const TOKEN_KEY = '@auth-Token';
 
@@ -19,6 +19,13 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         email: action.payload.email,
         token: action.payload.token,
         isAuthenticated: true
+      };
+    case AUTH_SIGNUP:
+      return {
+        ...state,
+        email: action.payload.email,
+        createdAt: action.payload.createdAt,
+        isAuthenticated: false
       };
     case AUTH_ERROR:
       localStorage.removeItem(TOKEN_KEY);

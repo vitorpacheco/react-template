@@ -1,5 +1,5 @@
 import api from '../../services/api';
-import {AUTH_ERROR, AUTH_SIGNIN} from './types';
+import {AUTH_ERROR, AUTH_SIGNIN, AUTH_SIGNUP} from './types';
 
 export const SignInAction = (email, password) => dispatch => {
   // TODO utilizar os parametros de login
@@ -20,6 +20,29 @@ export const SignInAction = (email, password) => dispatch => {
       type: AUTH_ERROR,
       payload: {
         error: 'Houve um problema com o login, verifique suas credenciais.'
+      }
+    });
+  });
+};
+
+export const SignUpAction = (email, job, password) => dispatch => {
+  return api.post('/users', {
+    email: 'eve.holt@reqres.in',
+    password: 'pistol'
+  }).then((response) => {
+    dispatch({
+      type: AUTH_SIGNUP,
+      payload: {
+        email,
+        job,
+        createdAt: response.data.createdAt
+      }
+    });
+  }).catch(() => {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        error: 'Ocorreu um erro ao registrar sua conta.'
       }
     });
   });

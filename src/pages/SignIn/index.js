@@ -1,24 +1,27 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 
-import {Container, Form} from './styles';
 import {SignInAction} from '../../store/actions/authActions';
+
+import {Container, Form} from './styles';
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
+
+  const error = useSelector(store => store.authReducer.error);
 
   const dispatch = useDispatch();
 
   const handleSignIn = (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError('Preencha e-mail e senha para continuar');
-      return;
-    }
+    // if (!email || !password) {
+    //   setError('Preencha e-mail e senha para continuar');
+    //   return;
+    // }
 
     dispatch(SignInAction(email, password)).then(() => {
       props.history.push('/app');
