@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {ConfigProvider} from 'antd';
+import ptBR from 'antd/es/locale/pt_BR';
 
 import './index.css';
 import App from './App';
@@ -9,7 +11,9 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <ConfigProvider locale={ptBR}>
+      <App/>
+    </ConfigProvider>
   </Provider>,
   document.getElementById('root')
 );

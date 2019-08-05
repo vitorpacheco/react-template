@@ -26,6 +26,8 @@ export const SignInAction = (email, password) => dispatch => {
 };
 
 export const SignUpAction = (email, job, password) => dispatch => {
+  // TODO utilizar os parametros de cadastro
+
   return api.post('/users', {
     email: 'eve.holt@reqres.in',
     password: 'pistol'
