@@ -1,30 +1,30 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 
-import api from '../../services/api';
-import {login} from '../../services/auth';
+import {SignInAction} from '../../store/actions/authActions';
 
 import {Container, Form} from './styles';
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
+
+  const error = useSelector(store => store.authReducer.error);
+
+  const dispatch = useDispatch();
 
   const handleSignIn = (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError('Preencha e-mail e senha para continuar');
-      return;
-    }
+    // if (!email || !password) {
+    //   setError('Preencha e-mail e senha para continuar');
+    //   return;
+    // }
 
-    api.post('/login', {email, password})
-      .then((response) => {
-        login(response.data.token);
-        props.history.push('/app');
-      }).catch(() => {
-      setError('Houve um problema com o login, verifique suas credenciais.');
+    dispatch(SignInAction(email, password)).then(() => {
+      props.history.push('/app');
     });
   };
 

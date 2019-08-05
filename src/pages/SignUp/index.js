@@ -1,29 +1,30 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
-
-import api from '../../services/api';
+import {SignUpAction} from '../../store/actions/authActions';
 
 import {Container, Form} from './styles';
 
-const Index = () => {
-  const [username, setUsername] = useState('');
+const Index = (props) => {
+  const [email, setEmail] = useState('');
   const [job, setJob] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
 
-  const handleSignUp = async e => {
+  const error = useSelector(store => store.authReducer.error);
+
+  const dispatch = useDispatch();
+
+  const handleSignUp = (e) => {
     e.preventDefault();
 
-    if (!username || !job || !password) {
-      setError('Preencha todos os dados para se cadastrar.');
-    } else {
-      try {
-        await api.post('/users', {name: username, job: job});
-        this.props.history.push('/');
-      } catch (err) {
-        setError('Ocorreu um erro ao registrar sua conta.');
-      }
-    }
+    // if (!email || !job || !password) {
+    //   setError('Preencha todos os dados para se cadastrar.');
+    // }
+
+    dispatch(SignUpAction(email, job, password)).then(() => {
+      props.history.push('/app');
+    });
   };
 
   return (
@@ -34,7 +35,7 @@ const Index = () => {
         <input
           type="text"
           placeholder="Nome de usuário"
-          onChange={e => setUsername(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
         />
 
         <input
