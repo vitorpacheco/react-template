@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 
 import {Container, Form} from './styles';
-import {useDispatch} from 'react-redux';
 import {SignInAction} from '../../store/actions/authActions';
 
 const SignIn = (props) => {

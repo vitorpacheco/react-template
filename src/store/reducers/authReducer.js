@@ -1,9 +1,12 @@
-import {AUTH_SIGNIN} from '../actions';
-import {TOKEN_KEY} from '../../services/auth';
+import {AUTH_ERROR, AUTH_LOGOUT, AUTH_SIGNIN} from '../actions/types';
+
+export const TOKEN_KEY = '@auth-Token';
 
 export const INITIAL_STATE = {
   email: null,
-  token: null
+  token: null,
+  isAuthenticated: false,
+  error: null
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -14,7 +17,27 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         email: action.payload.email,
-        token: action.payload.token
+        token: action.payload.token,
+        isAuthenticated: true
+      };
+    case AUTH_ERROR:
+      localStorage.removeItem(TOKEN_KEY);
+
+      return {
+        ...state,
+        email: null,
+        token: null,
+        isAuthenticated: false,
+        error: action.payload.error
+      };
+    case AUTH_LOGOUT:
+      localStorage.removeItem(TOKEN_KEY);
+
+      return {
+        ...state,
+        email: null,
+        token: null,
+        isAuthenticated: false
       };
     default:
       return state;

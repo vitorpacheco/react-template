@@ -1,5 +1,5 @@
 import api from '../../services/api';
-import {AUTH_ERROR, AUTH_SIGNIN} from './index';
+import {AUTH_ERROR, AUTH_SIGNIN} from './types';
 
 export const SignInAction = (email, password) => dispatch => {
   // TODO utilizar os parametros de login

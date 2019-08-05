@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {getToken} from './auth';
+
+import {TOKEN_KEY} from '../store/reducers/authReducer';
 
 const api = axios.create({
   baseURL: 'https://reqres.in/api/',
@@ -9,7 +10,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async config => {
-  const token = getToken();
+  const token = localStorage.getItem(TOKEN_KEY);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

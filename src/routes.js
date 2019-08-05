@@ -1,18 +1,23 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import {isAuthenticated} from './services/auth';
+
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 
-const PrivateRoute = ({component: Component, ...rest}) => (
-  <Route
-    {...rest}
-    render={props =>
-      isAuthenticated() ?
-        (<Component {...props} />) :
-        (<Redirect to={{pathname: '/', state: {from: props.location}}}/>)}
-  />
-);
+const PrivateRoute = ({component: Component, ...rest}) => {
+  const isAuthenticated = useSelector(store => store.authReducer.isAuthenticated);
+
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        isAuthenticated ?
+          (<Component {...props} />) :
+          (<Redirect to={{pathname: '/', state: {from: props.location}}}/>)}
+    />
+  )
+};
 
 const Routes = () => (
   <BrowserRouter>
