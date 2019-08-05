@@ -1,63 +1,77 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
+import {Button, Card, Form, Icon, Input} from 'antd';
+
 import {SignUpAction} from '../../store/actions/authActions';
 
-import {Container, Form} from './styles';
-
-const Index = (props) => {
-  const [email, setEmail] = useState('');
-  const [job, setJob] = useState('');
-  const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
-
+const SignUp = (props) => {
   const error = useSelector(store => store.authReducer.error);
 
   const dispatch = useDispatch();
 
+  const {getFieldDecorator} = props.form;
+
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    // if (!email || !job || !password) {
-    //   setError('Preencha todos os dados para se cadastrar.');
-    // }
-
-    dispatch(SignUpAction(email, job, password)).then(() => {
-      props.history.push('/app');
+    props.form.validateFields((error, values) => {
+      if (!error) {
+        dispatch(SignUpAction(values.email, values.job, values.password)).then(() => {
+          props.history.push('/app');
+        });
+      }
     });
   };
 
   return (
-    <Container>
+    <Card style={{width: 400}}>
       <Form onSubmit={handleSignUp}>
         {error && <p>{error}</p>}
 
-        <input
-          type="text"
-          placeholder="Nome de usuário"
-          onChange={e => setEmail(e.target.value)}
-        />
+        <Form.Item>
+          {getFieldDecorator('email', {
+            rules: [{required: true, message: 'Preencha o e-mail'}]
+          })(
+            <Input
+              prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+              type="text"
+              placeholder="E-mail"
+            />
+          )}
+        </Form.Item>
 
-        <input
-          type="text"
-          placeholder="Ocupação"
-          onChange={e => setJob(e.target.value)}
-        />
+        <Form.Item>
+          {getFieldDecorator('job', {
+            rules: [{required: true, message: 'Preencha a ocupação'}]
+          })(
+            <Input
+              type="text"
+              placeholder="Ocupação"
+            />
+          )}
+        </Form.Item>
 
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={e => setPassword(e.target.value)}
-        />
+        <Form.Item>
+          {getFieldDecorator('password', {
+            rules: [{required: true, message: 'Preencha a senha'}]
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+              type="password"
+              placeholder="Senha"
+            />
+          )}
+        </Form.Item>
 
-        <button type="submit">Cadastrar</button>
+        <Form.Item>
+          <Button block type="primary" size="large" htmlType="submit">Cadastrar</Button>
 
-        <hr/>
-
-        <Link to="/">Fazer Login</Link>
+          <Link to="/">Fazer Login</Link>
+        </Form.Item>
       </Form>
-    </Container>
+    </Card>
   );
 };
 
-export default withRouter(Index)
+export default withRouter(Form.create({name: 'SignUpForm'})(SignUp))

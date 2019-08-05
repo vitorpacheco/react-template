@@ -1,58 +1,66 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
+import {Button, Card, Form, Icon, Input} from 'antd';
 
 import {SignInAction} from '../../store/actions/authActions';
 
-import {Container, Form} from './styles';
-
 const SignIn = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
-
   const error = useSelector(store => store.authReducer.error);
 
   const dispatch = useDispatch();
 
+  const {getFieldDecorator} = props.form;
+
   const handleSignIn = (e) => {
     e.preventDefault();
 
-    // if (!email || !password) {
-    //   setError('Preencha e-mail e senha para continuar');
-    //   return;
-    // }
-
-    dispatch(SignInAction(email, password)).then(() => {
-      props.history.push('/app');
+    props.form.validateFields((error, values) => {
+      if (!error) {
+        dispatch(SignInAction(values.email, values.password)).then(() => {
+          props.history.push('/app');
+        });
+      }
     });
   };
 
   return (
-    <Container>
+    <Card style={{width: 400}}>
       <Form onSubmit={handleSignIn}>
         {error && <p>{error}</p>}
 
-        <input
-          type="email"
-          placeholder="Endereço de e-mail"
-          onChange={e => setEmail(e.target.value)}
-        />
+        <Form.Item>
+          {getFieldDecorator('email', {
+            rules: [{required: true, message: 'Preencha o e-mail'}]
+          })(
+            <Input
+              prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+              type="email"
+              placeholder="E-mail"
+            />
+          )}
+        </Form.Item>
 
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={e => setPassword(e.target.value)}
-        />
+        <Form.Item>
+          {getFieldDecorator('password', {
+            rules: [{required: true, message: 'Preencha a senha'}]
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+              type="password"
+              placeholder="Senha"
+            />
+          )}
+        </Form.Item>
 
-        <button type="submit">Entrar</button>
+        <Form.Item>
+          <Button block type="primary" size="large" htmlType="submit">Entrar</Button>
 
-        <hr/>
-
-        <Link to="/signup">Cadastrar</Link>
+          <Link to="/signup">Cadastrar</Link>
+        </Form.Item>
       </Form>
-    </Container>
+    </Card>
   );
 };
 
-export default withRouter(SignIn);
+export default withRouter(Form.create({name: 'SignInForm'})(SignIn));
