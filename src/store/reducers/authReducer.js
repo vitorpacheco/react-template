@@ -4,6 +4,7 @@ export const TOKEN_KEY = '@auth-Token';
 
 export const INITIAL_STATE = {
   email: null,
+  createdAt: null,
   token: null,
   isAuthenticated: false,
   error: null
@@ -17,15 +18,19 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         email: action.payload.email,
+        createdAt: null,
         token: action.payload.token,
-        isAuthenticated: true
+        isAuthenticated: true,
+        error: null
       };
     case AUTH_SIGNUP:
       return {
         ...state,
         email: action.payload.email,
         createdAt: action.payload.createdAt,
-        isAuthenticated: false
+        token: null,
+        isAuthenticated: false,
+        error: null
       };
     case AUTH_ERROR:
       localStorage.removeItem(TOKEN_KEY);
@@ -33,6 +38,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         email: null,
+        createdAt: null,
         token: null,
         isAuthenticated: false,
         error: action.payload.error
@@ -43,8 +49,10 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         email: null,
+        createdAt: null,
         token: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        error: null
       };
     default:
       return state;

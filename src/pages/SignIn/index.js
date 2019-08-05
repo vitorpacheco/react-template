@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
-import {Button, Card, Form, Icon, Input} from 'antd';
+import {Button, Card, Form, Icon, Input, message} from 'antd';
 
 import {SignInAction} from '../../store/actions/authActions';
 
@@ -11,6 +11,12 @@ const SignIn = (props) => {
   const dispatch = useDispatch();
 
   const {getFieldDecorator} = props.form;
+
+  useEffect(() => {
+    if (error) {
+      message.error(error);
+    }
+  }, []);
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -27,8 +33,6 @@ const SignIn = (props) => {
   return (
     <Card style={{width: 400}}>
       <Form onSubmit={handleSignIn}>
-        {error && <p>{error}</p>}
-
         <Form.Item>
           {getFieldDecorator('email', {
             rules: [{required: true, message: 'Preencha o e-mail'}]
