@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
 import {useSelector} from 'react-redux';
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {Spin} from 'antd';
 
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
+const SignIn = lazy(() => import('./pages/SignIn'));
+const SignUp = lazy(() => import('./pages/SignUp'));
 
 const PrivateRoute = ({component: Component, ...rest}) => {
   const isAuthenticated = useSelector(store => store.authReducer.isAuthenticated);
@@ -21,12 +22,14 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
 const Routes = () => (
   <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={SignIn}/>
-      <Route path="/signup" component={SignUp}/>
-      <PrivateRoute path="/app" component={() => <h1>App</h1>}/>
-      <Route path="*" component={() => <h1>404</h1>}/>
-    </Switch>
+    <Suspense fallback={<Spin size="large" />}>
+      <Switch>
+        <Route exact path="/" component={SignIn}/>
+        <Route path="/signup" component={SignUp}/>
+        <PrivateRoute path="/app" component={() => <h1>App</h1>}/>
+        <Route path="*" component={() => <h1>404</h1>}/>
+      </Switch>
+    </Suspense>
   </BrowserRouter>
 );
 

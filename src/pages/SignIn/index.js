@@ -4,6 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {Button, Card, Form, Icon, Input, message} from 'antd';
 
 import {SignInAction} from '../../store/actions/authActions';
+import {Container} from './styles';
 
 const SignIn = (props) => {
   const error = useSelector(store => store.authReducer.error);
@@ -31,39 +32,41 @@ const SignIn = (props) => {
   };
 
   return (
-    <Card style={{width: 400}}>
-      <Form onSubmit={handleSignIn}>
-        <Form.Item>
-          {getFieldDecorator('email', {
-            rules: [{required: true, message: 'Preencha o e-mail'}]
-          })(
-            <Input
-              prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
-              type="email"
-              placeholder="E-mail"
-            />
-          )}
-        </Form.Item>
+    <Container>
+      <Card style={{width: 400}}>
+        <Form onSubmit={handleSignIn}>
+          <Form.Item>
+            {getFieldDecorator('email', {
+              rules: [{required: true, message: 'Preencha o e-mail'}]
+            })(
+              <Input
+                prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+                type="email"
+                placeholder="E-mail"
+              />
+            )}
+          </Form.Item>
 
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{required: true, message: 'Preencha a senha'}]
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
-              type="password"
-              placeholder="Senha"
-            />
-          )}
-        </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{required: true, message: 'Preencha a senha'}]
+            })(
+              <Input
+                prefix={<Icon type="lock" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+                type="password"
+                placeholder="Senha"
+              />
+            )}
+          </Form.Item>
 
-        <Form.Item>
-          <Button block type="primary" size="large" htmlType="submit">Entrar</Button>
+          <Form.Item>
+            <Button block type="primary" size="large" htmlType="submit">Entrar</Button>
 
-          <Link to="/signup">Cadastrar</Link>
-        </Form.Item>
-      </Form>
-    </Card>
+            <Link to="/signup">Cadastrar</Link>
+          </Form.Item>
+        </Form>
+      </Card>
+    </Container>
   );
 };
 
