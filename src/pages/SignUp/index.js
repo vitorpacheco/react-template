@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 import {Button, Card, Form, Icon, Input, message} from 'antd';
 
-import {SignUpAction} from '../../store/actions/authActions';
+import {SignUpAction} from '../../store/actions/AuthActions';
 import {Container} from './styles';
 
 const SignUp = (props) => {

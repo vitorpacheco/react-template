@@ -1,19 +1,18 @@
 import {AUTH_ERROR, AUTH_LOGOUT, AUTH_SIGNIN, AUTH_SIGNUP} from '../actions/types';
-
-export const TOKEN_KEY = '@auth-Token';
+import {login, logout} from '../../services/auth';
 
 export const INITIAL_STATE = {
-  email: null,
-  createdAt: null,
-  token: null,
-  isAuthenticated: false,
-  error: null
+email: null,
+createdAt: null,
+token: null,
+isAuthenticated: false,
+error: null
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case AUTH_SIGNIN:
-      localStorage.setItem(TOKEN_KEY, action.payload.token);
+      login(action.payload.token);
 
       return {
         ...state,
@@ -33,7 +32,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
     case AUTH_ERROR:
-      localStorage.removeItem(TOKEN_KEY);
+      logout();
 
       return {
         ...state,
@@ -44,7 +43,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         error: action.payload.error
       };
     case AUTH_LOGOUT:
-      localStorage.removeItem(TOKEN_KEY);
+      logout();
 
       return {
         ...state,
