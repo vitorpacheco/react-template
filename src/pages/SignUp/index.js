@@ -25,7 +25,7 @@ const SignUp = (props) => {
     props.form.validateFields((error, values) => {
       if (!error) {
         dispatch(SignUpAction(values.email, values.job, values.password)).then(() => {
-          props.history.push('/app');
+          props.history.push('/home');
         });
       }
     });

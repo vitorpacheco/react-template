@@ -25,7 +25,7 @@ const SignIn = (props) => {
     props.form.validateFields((error, values) => {
       if (!error) {
         dispatch(SignInAction(values.email, values.password)).then(() => {
-          props.history.push('/app');
+          props.history.push('/home');
         });
       }
     });

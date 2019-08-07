@@ -42,6 +42,7 @@ const Home = () => {
     <Container>
       <Card>
         <Table
+          style={{width: 800}}
           columns={columns}
           rowKey={record => record.id}
           dataSource={results.data}

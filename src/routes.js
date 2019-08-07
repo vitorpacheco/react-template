@@ -7,6 +7,7 @@ import PrivateRoute from './components/PrivateRoute';
 const SignIn = lazy(() => import('./pages/SignIn'));
 const SignUp = lazy(() => import('./pages/SignUp'));
 const Home = lazy(() => import('./pages/Home'));
+const Error404 = lazy(() => import('./pages/404'));
 
 const Routes = () => (
   <BrowserRouter>
@@ -14,8 +15,8 @@ const Routes = () => (
       <Switch>
         <Route exact path="/" component={SignIn}/>
         <Route path="/signup" component={SignUp}/>
-        <PrivateRoute path="/app" component={Home}/>
-        <Route path="*" component={() => <h1>404</h1>}/>
+        <PrivateRoute path="/home" component={Home}/>
+        <Route path="*" component={Error404}/>
       </Switch>
     </Suspense>
   </BrowserRouter>
