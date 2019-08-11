@@ -1,4 +1,3 @@
-### builder
 FROM node:12.7.0-alpine as builder
 
 WORKDIR /app
@@ -16,11 +15,11 @@ RUN ls -lah /app
 
 RUN npm run build
 
-FROM nginx:1.17.2 as runner
+FROM nginx:1.17.2 as runtime
 
 COPY --from=builder /app/build /usr/share/nginx/html
 
-COPY ./src/configs/nginx.conf /etc/nginx/conf.d/default.conf
+COPY config /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

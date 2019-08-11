@@ -9,3 +9,14 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.ant-layout-sider {
+  flex: 0 0 260px!important;
+  width: 260px!important;
+  max-width: 260px!important;
+  min-width: 200px!important;
+}
+
+.ant-layout-sider-trigger {
+  width: 260px;
+}

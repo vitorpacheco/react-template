@@ -1,28 +1,23 @@
-import React from 'react';
+import React, {useReducer} from 'react';
 import {Layout} from 'antd';
-
-import AppMenu from './components/AppMenu';
 
 import './App.css';
 import Routes from './routes';
-import GlobalStyles from './styles/global'
 
-const {Header, Content, Footer} = Layout;
+import FontReducer, {init, INITIAL_STATE} from './store/reducers/FontReducer';
+
+export const FontContext = React.createContext(null);
 
 const App = () => {
+  const [layoutFont, dispatchLayoutFont] = useReducer(FontReducer, INITIAL_STATE, init);
+
   return (
-    <Layout style={{minHeight: '100vh'}}>
-      <AppMenu />
-      <Layout>
-        <Header style={{background: '#fff', padding: 0}}/>
-        <Content style={{margin: '0 16px'}}>
-          <Routes/>
-        </Content>
-        <Footer style={{textAlign: 'center'}}>© 2019</Footer>
+    <FontContext.Provider value={dispatchLayoutFont}>
+      <Layout className={layoutFont.layoutClassName} style={{minHeight: '100vh'}}>
+        <Routes/>
       </Layout>
-      <GlobalStyles/>
-    </Layout>
+    </FontContext.Provider>
   )
 };
 
-export default App
+export default App;
