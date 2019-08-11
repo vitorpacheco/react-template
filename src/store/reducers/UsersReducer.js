@@ -9,7 +9,6 @@ export const INITIAL_STATE = {
 const UserReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USERS_FETCH_ALL:
-      console.log(action);
       return {
         ...state,
         data: action.payload.data,

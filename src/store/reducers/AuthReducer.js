@@ -2,11 +2,11 @@ import {AUTH_ERROR, AUTH_LOGOUT, AUTH_SIGNIN, AUTH_SIGNUP} from '../actions/type
 import {login, logout} from '../../services/auth';
 
 export const INITIAL_STATE = {
-email: null,
-createdAt: null,
-token: null,
-isAuthenticated: false,
-error: null
+  email: null,
+  createdAt: null,
+  token: null,
+  isAuthenticated: false,
+  error: null
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {

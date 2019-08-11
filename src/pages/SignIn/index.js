@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 import {Button, Card, Form, Icon, Input, message} from 'antd';
 
 import {SignInAction} from '../../store/actions/AuthActions';
 import {Container} from './styles';
+import {isAuthenticated} from '../../services/auth';
 
 const SignIn = (props) => {
   const error = useSelector(store => store.authReducer.error);
@@ -31,7 +32,7 @@ const SignIn = (props) => {
     });
   };
 
-  return (
+  return !isAuthenticated() ? (
     <Container>
       <Card style={{width: 400}}>
         <Form onSubmit={handleSignIn}>
@@ -67,7 +68,8 @@ const SignIn = (props) => {
         </Form>
       </Card>
     </Container>
-  );
+  ) :
+    (<Redirect to="/home" />);
 };
 
 export default withRouter(Form.create({name: 'SignInForm'})(SignIn));
