@@ -1,62 +1,84 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
+import {Button, Card, Form, Icon, Input, message} from 'antd';
 
-import api from '../../services/api';
+import {SignUpAction} from '../../store/actions/AuthActions';
+import {Container} from './styles';
 
-import {Container, Form} from './styles';
+const SignUp = (props) => {
+  const error = useSelector(store => store.authReducer.error);
 
-const Index = () => {
-  const [username, setUsername] = useState('');
-  const [job, setJob] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const dispatch = useDispatch();
 
-  const handleSignUp = async e => {
+  const {getFieldDecorator} = props.form;
+
+  useEffect(() => {
+    if (error) {
+      message.error(error);
+    }
+  }, []);
+
+  const handleSignUp = (e) => {
     e.preventDefault();
 
-    if (!username || !job || !password) {
-      setError('Preencha todos os dados para se cadastrar.');
-    } else {
-      try {
-        await api.post('/users', {name: username, job: job});
-        this.props.history.push('/');
-      } catch (err) {
-        setError('Ocorreu um erro ao registrar sua conta.');
+    props.form.validateFields((error, values) => {
+      if (!error) {
+        dispatch(SignUpAction(values.email, values.job, values.password)).then(() => {
+          props.history.push('/home');
+        });
       }
-    }
+    });
   };
 
   return (
     <Container>
-      <Form onSubmit={handleSignUp}>
-        {error && <p>{error}</p>}
+      <Card style={{width: 400}}>
+        <Form onSubmit={handleSignUp}>
+          <Form.Item>
+            {getFieldDecorator('email', {
+              rules: [{required: true, message: 'Preencha o e-mail'}]
+            })(
+              <Input
+                prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+                type="text"
+                placeholder="E-mail"
+              />
+            )}
+          </Form.Item>
 
-        <input
-          type="text"
-          placeholder="Nome de usuário"
-          onChange={e => setUsername(e.target.value)}
-        />
+          <Form.Item>
+            {getFieldDecorator('job', {
+              rules: [{required: true, message: 'Preencha a ocupação'}]
+            })(
+              <Input
+                type="text"
+                placeholder="Ocupação"
+              />
+            )}
+          </Form.Item>
 
-        <input
-          type="text"
-          placeholder="Ocupação"
-          onChange={e => setJob(e.target.value)}
-        />
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{required: true, message: 'Preencha a senha'}]
+            })(
+              <Input
+                prefix={<Icon type="lock" style={{color: 'rgba(0, 0, 0, .25)'}}/>}
+                type="password"
+                placeholder="Senha"
+              />
+            )}
+          </Form.Item>
 
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={e => setPassword(e.target.value)}
-        />
+          <Form.Item>
+            <Button block type="primary" size="large" htmlType="submit">Cadastrar</Button>
 
-        <button type="submit">Cadastrar</button>
-
-        <hr/>
-
-        <Link to="/">Fazer Login</Link>
-      </Form>
+            <Link to="/">Fazer Login</Link>
+          </Form.Item>
+        </Form>
+      </Card>
     </Container>
   );
 };
 
-export default withRouter(Index)
+export default withRouter(Form.create({name: 'SignUpForm'})(SignUp))

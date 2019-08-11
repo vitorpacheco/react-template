@@ -1,27 +1,24 @@
-import React from 'react';
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import {isAuthenticated} from './services/auth';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
+import React, {lazy, Suspense} from 'react';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-const PrivateRoute = ({component: Component, ...rest}) => (
-  <Route
-    {...rest}
-    render={props =>
-      isAuthenticated() ?
-        (<Component {...props} />) :
-        (<Redirect to={{pathname: '/', state: {from: props.location}}}/>)}
-  />
-);
+import Loading from './components/Loading';
+import PrivateRoute from './components/PrivateRoute';
+
+const SignIn = lazy(() => import('./pages/SignIn'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const Home = lazy(() => import('./pages/Home'));
+const Error404 = lazy(() => import('./pages/404'));
 
 const Routes = () => (
   <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={SignIn}/>
-      <Route path="/signup" component={SignUp}/>
-      <PrivateRoute path="/app" component={() => <h1>App</h1>}/>
-      <Route path="*" component={() => <h1>404</h1>}/>
-    </Switch>
+    <Suspense fallback={<Loading />}>
+      <Switch>
+        <Route exact path="/" component={SignIn}/>
+        <Route path="/signup" component={SignUp}/>
+        <PrivateRoute path="/home" component={Home}/>
+        <Route path="*" component={Error404}/>
+      </Switch>
+    </Suspense>
   </BrowserRouter>
 );
 
